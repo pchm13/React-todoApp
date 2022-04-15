@@ -8,10 +8,16 @@ export const App = () => {
 
   const onchangeTodoText = (event) => setTodoText(event.target.value);
 
-  const onClickAddTodo = (event) => {
+  const onClickAdd = () => {
     if (todoText === "") return;
     setIncompleteTodos([...incompleteTodos, todoText]);
     setTodoText("");
+  };
+
+  const onClickDelete = (index) => {
+    const newTodos = [...incompleteTodos];
+    newTodos.splice(index, 1);
+    setIncompleteTodos(newTodos);
   };
 
   return (
@@ -22,17 +28,17 @@ export const App = () => {
           value={todoText}
           onChange={onchangeTodoText}
         />
-        <button onClick={onClickAddTodo}>追加</button>
+        <button onClick={onClickAdd}>追加</button>
       </div>
       <div className="incomplete-area">
         <p className="title">未完了のTODO</p>
         <ul>
-          {incompleteTodos.map((todo) => {
+          {incompleteTodos.map((todo, index) => {
             return (
               <div key={todo} className="list-row">
                 <li>{todo}</li>
                 <button>完了</button>
-                <button>削除</button>
+                <button onClick={() => onClickDelete(index)}>削除</button>
               </div>
             );
           })}
